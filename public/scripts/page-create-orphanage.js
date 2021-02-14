@@ -37,9 +37,47 @@ function addPhotoField() {
     // clone last added image
     const newFieldContainer = fieldsContainer[fieldsContainer.length - 1].cloneNode(true);
 
+    // verify if field is empty, if yes, do not add new image container
+    const input = newFieldContainer.children[0];
+
+    if (input.value == '') {
+        return;
+    }
     // clear the field before adding it to the image container
-    console.log(newFieldContainer.children);
+    input.value = '';
 
     // add clone to container #images
     container.appendChild(newFieldContainer);
+}
+
+// delete photos field
+function deleteField(event) {
+    const span = event.currentTarget;
+
+    const fieldsContainer = document.querySelectorAll('.new-upload');
+
+    if (fieldsContainer.length < 2) {
+        //clear field value
+        span.parentNode.children[0].value = '';
+        return;
+    }
+
+    // delete field
+    span.parentNode.remove();
+}
+
+// select yes or no
+function toggleSelect(event) {
+    // remove active class from buttons
+    document.querySelectorAll('.button-select button').forEach((button) => {
+        button.classList.remove('active');
+    });
+    // put active class on the clicked button
+    const button = event.currentTarget;
+    button.classList.add('active');
+
+    // update hidden input with selected value
+    const input = document.querySelector('[name="open_on_weekends"]');
+
+    input.value = button.dataset.value;
 }
